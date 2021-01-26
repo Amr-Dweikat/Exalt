@@ -5,7 +5,7 @@ import org.snmp4j.CommunityTarget;
 import org.snmp4j.mp.SnmpConstants;
 import org.testng.annotations.Test;
 
-import java.util.Map;
+
 
 public class TestSnmpCommunication {
 
@@ -18,7 +18,7 @@ public class TestSnmpCommunication {
         help.validateSwitchDescription(switchDescription);
     }
 
- 
+
 
 
 }
