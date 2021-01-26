@@ -1,0 +1,64 @@
+[
+
+	{
+   
+       "IPAddress":"192.168.1.1",
+       "Username":"Amr",
+       "Password":"1",
+       "Network":"Network1",
+       "MacAddress":"00:0a:95:9d:68:16",
+       "Type":"Switch" 
+
+	},
+
+		
+	{
+ 
+       "IPAddress":"192.168.2.1",
+       "Username":"Ahmad",
+       "Password":"12",
+       "Network":"Network2",
+       "MacAddress":"00:0a:95:9d:68:17",
+       "Type":"Switch" 
+
+	},
+
+	
+	{
+ 
+       "IPAddress":"192.168.3.0",
+       "Username":"Yazan",
+       "Password":"123",
+       "Networks":["Network3","Network4","Network5"],
+       "Type":"Router" 
+
+	},
+
+
+	{	
+   
+       "IPAddress":"168.4.0.0",
+       "Username":"Firas",
+       "Password":"1234",
+       "Networks":["Network6","Network7","Network8"],
+       "Type":"Router" 
+
+	},
+
+
+
+	
+	{	
+
+       "IPAddress":"29.168.5.0",
+       "Username":"Ez",
+       "Password":"12345",
+       "Network":"Network9",
+       "Type":"AP" 
+
+	}	
+	
+
+
+    
+]
