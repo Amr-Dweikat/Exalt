@@ -29,7 +29,7 @@ public class Help {
         return target;
     }
 
-    public static Map<String, String> doWalk(String tableOid, CommunityTarget target){
+    public Map<String, String> doWalk(String tableOid, CommunityTarget target){
         Map<String, String> result = new TreeMap<>();
         try {
             TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
@@ -72,8 +72,8 @@ public class Help {
         return result;
     }
 
-    public String getSwitchDescription(String oid , CommunityTarget target){
-            return doWalk(oid,target).get(".1.3.6.1.2.1.1.1.0");
+    public String getSwitchDescription(String oid , CommunityTarget target , String oidForSwitchDescription){
+            return doWalk(oid,target).get(oidForSwitchDescription);
     }
 
     public void validateSwitchDescription(String switchDescription){

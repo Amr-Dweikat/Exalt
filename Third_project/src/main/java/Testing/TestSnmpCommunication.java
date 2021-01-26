@@ -5,6 +5,8 @@ import org.snmp4j.CommunityTarget;
 import org.snmp4j.mp.SnmpConstants;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 public class TestSnmpCommunication {
 
     private Help help = new Help();
@@ -12,8 +14,15 @@ public class TestSnmpCommunication {
     @Test
     public void testSwitchDescriptionGotBySnmp(){
         CommunityTarget target = help.getTarget("public1" , "udp:192.168.200.233/161" , 2 , 1500 , SnmpConstants.version2c);
-        String switchDescription = help.getSwitchDescription(".1.3.6.1.2.1.1",target);
+        String switchDescription = help.getSwitchDescription(".1.3.6.1.2.1.1", target , ".1.3.6.1.2.1.1.1.0");
         help.validateSwitchDescription(switchDescription);
+    }
+
+    @Test
+    public void testcase(){
+        CommunityTarget target = help.getTarget("public1" , "udp:192.168.200.233/161" , 2 , 1500 , SnmpConstants.version2c);
+        Map<String,String> res = help.doWalk(".1.3.6.1.2.1.1.1.0",target);
+        for (String s : res.keySet()) System.out.println(s + " = " + res.get(s));
     }
 
 
