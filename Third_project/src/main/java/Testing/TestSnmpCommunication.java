@@ -18,12 +18,7 @@ public class TestSnmpCommunication {
         help.validateSwitchDescription(switchDescription);
     }
 
-    @Test
-    public void testcase(){
-        CommunityTarget target = help.getTarget("public1" , "udp:192.168.200.233/161" , 2 , 1500 , SnmpConstants.version2c);
-        Map<String,String> res = help.doWalk(".1.3.6.1.2.1.1.1.0",target);
-        for (String s : res.keySet()) System.out.println(s + " = " + res.get(s));
-    }
+ 
 
 
 }
