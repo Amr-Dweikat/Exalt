@@ -1,5 +1,6 @@
 package Classes;
 
+import org.snmp4j.mp.SnmpConstants;
 import org.testng.Assert;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,23 @@ import org.snmp4j.util.DefaultPDUFactory;
 import org.snmp4j.util.TreeEvent;
 import org.snmp4j.util.TreeUtils;
 
-public class Help {
+public class SnmpHelp {
+
+    private final static int retries = 2 ;
+    private final static int timeout = 1500;
+    private final static int version = SnmpConstants.version2c;
 
     public CommunityTarget getTarget(String community , String address , int retries , int timeout , int version){
+        CommunityTarget target = new CommunityTarget();
+        target.setCommunity(new OctetString(community));
+        target.setAddress(GenericAddress.parse(address));
+        target.setRetries(retries);
+        target.setTimeout(timeout);
+        target.setVersion(version);
+        return target;
+    }
+
+    public CommunityTarget getTarget(String community , String address){
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(community));
         target.setAddress(GenericAddress.parse(address));
