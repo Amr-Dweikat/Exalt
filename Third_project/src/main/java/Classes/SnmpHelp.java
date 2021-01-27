@@ -23,6 +23,11 @@ public class SnmpHelp {
     private final static int retries = 2 ;
     private final static int timeout = 1500;
     private final static int version = SnmpConstants.version2c;
+    private final CommunityTarget target ;
+
+    public SnmpHelp(String ipAddress , String community){
+             target = getTarget(community,"udp:"+ipAddress+"/161");
+    }
 
     public CommunityTarget getTarget(String community , String address , int retries , int timeout , int version){
         CommunityTarget target = new CommunityTarget();
@@ -44,7 +49,7 @@ public class SnmpHelp {
         return target;
     }
 
-    public Map<String, String> doWalk(String tableOid, CommunityTarget target){
+    public Map<String, String> snmpWalk(String tableOid, CommunityTarget target){
         Map<String, String> result = new TreeMap<>();
         try {
             TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
@@ -88,7 +93,8 @@ public class SnmpHelp {
     }
 
     public String getSwitchDescription(String oid , CommunityTarget target , String oidForSwitchDescription){
-            return doWalk(oid,target).get(oidForSwitchDescription);
+            Map<String,String> deviceInformation = snmpWalk(".1.3.6.1.2.1.1",target);
+            return deviceInformation.get(".1.3.6.1.2.1.1.1.0");
     }
 
     public void validateSwitchDescription(String switchDescription){

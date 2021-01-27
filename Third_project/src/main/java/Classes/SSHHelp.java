@@ -1,54 +1,61 @@
 package Classes;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 
-import java.io.ByteArrayOutputStream;
+import com.jcraft.jsch.*;
+import java.io.*;
 
-public class SSHHelp {
 
-    public static void listFolderStructure(String username, String password,
-                                           String host, int port, String command) throws Exception {
 
-        Session session = null;
-        ChannelExec channel = null;
-
-        try {
-            session = new JSch().getSession(username, host, port);
-            session.setPassword(password);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-
-            channel = (ChannelExec) session.openChannel("exec");
-            channel.setCommand(command);
-            ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-            channel.setOutputStream(responseStream);
-            channel.connect();
-
-            while (channel.isConnected()) {
-                Thread.sleep(100);
-            }
-
-            String responseString = new String(responseStream.toByteArray());
-            System.out.println(responseString);
-        } finally {
-            if (session != null) {
-                session.disconnect();
-            }
-            if (channel != null) {
-                channel.disconnect();
-            }
-        }
-    }
+public class SSHHelp  {
 
     public static void main(String[] args) {
-        try {
-            listFolderStructure("user1", "user@3214", "192.168.200.233", 22, "show inventory");
-        }
-        catch (Exception e){
+        String host="192.168.200.233";
+        String user="user1";
+        String password="user@3214";
+        String command1="show version";
+        try{
+
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            JSch jsch = new JSch();
+            Session session=jsch.getSession(user, host, 22);
+            session.setPassword(password);
+            session.setConfig(config);
+            session.connect();
+            System.out.println("Connected");
+
+            Channel channel=session.openChannel("exec");
+            ((ChannelExec)channel).setCommand(command1);
+            channel.setInputStream(null);
+            ((ChannelExec)channel).setErrStream(System.err);
+
+            InputStream in=channel.getInputStream();
+            channel.connect();
+            byte[] tmp=new byte[1024];
+            int wait = 0;
+            while(wait <10) {
+                System.out.println("in available :" + in.available());
+                while (in.available() > 0) {
+                    System.out.println("Inside loop");
+                    int i = in.read(tmp, 0, 1024);
+                    if (i < 0) break;
+                    System.out.print(new String(tmp, 0, i));
+                }
+                try{
+                    System.out.println("wait = " +wait);
+                    Thread.sleep(1000);
+                    wait++;
+                }
+                catch(Exception ee){}
+            }
+            channel.disconnect();
+            session.disconnect();
+            System.out.println("DONE");
+        }catch(Exception e){
             e.printStackTrace();
         }
+
     }
 
-}
+
+}//SSHHelp
