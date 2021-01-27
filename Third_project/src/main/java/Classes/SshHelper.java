@@ -6,8 +6,9 @@ import java.io.*;
 
 
 
-public class SSHHelp  {
+public class SshHelper {
 
+    public SshHelper(String hostAddress , )
     public static void main(String[] args) {
         String host="192.168.200.233";
         String user="user1";

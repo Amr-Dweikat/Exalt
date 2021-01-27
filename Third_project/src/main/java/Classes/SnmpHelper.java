@@ -18,16 +18,22 @@ import org.snmp4j.util.DefaultPDUFactory;
 import org.snmp4j.util.TreeEvent;
 import org.snmp4j.util.TreeUtils;
 
-public class SnmpHelp {
+public class SnmpHelper {
 
     private final static int retries = 2 ;
     private final static int timeout = 1500;
     private final static int version = SnmpConstants.version2c;
-    private final CommunityTarget target ;
+    private static CommunityTarget target = null ;
 
-    public SnmpHelp(String ipAddress , String community){
-             target = getTarget(community,"udp:"+ipAddress+"/161");
+    public SnmpHelper(String hostAddress , String community){
+             target = getTarget(community,"udp:"+hostAddress+"/161");
     }
+
+
+    public SnmpHelper(String hostAddress , String community , int retries , int timeout , int version ){
+        target = getTarget(community,"udp:"+hostAddress+"/161",retries,timeout,version);
+    }
+
 
     public CommunityTarget getTarget(String community , String address , int retries , int timeout , int version){
         CommunityTarget target = new CommunityTarget();
@@ -39,6 +45,7 @@ public class SnmpHelp {
         return target;
     }
 
+
     public CommunityTarget getTarget(String community , String address){
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(community));
@@ -48,6 +55,7 @@ public class SnmpHelp {
         target.setVersion(version);
         return target;
     }
+
 
     public Map<String, String> snmpWalk(String tableOid, CommunityTarget target){
         Map<String, String> result = new TreeMap<>();
@@ -92,13 +100,12 @@ public class SnmpHelp {
         return result;
     }
 
-    public String getSwitchDescription(String oid , CommunityTarget target , String oidForSwitchDescription){
+    
+    public String getDeviceDescription(){
             Map<String,String> deviceInformation = snmpWalk(".1.3.6.1.2.1.1",target);
             return deviceInformation.get(".1.3.6.1.2.1.1.1.0");
     }
 
-    public void validateSwitchDescription(String switchDescription){
-        Assert.assertEquals("SG300-28PP 28-Port Gigabit PoE Managed Switch",switchDescription,"switch description not correct");
-    }
+
 
 }
