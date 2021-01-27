@@ -100,7 +100,7 @@ public class SnmpHelper {
         return result;
     }
 
-    
+
     public String getDeviceDescription(){
             Map<String,String> deviceInformation = snmpWalk(".1.3.6.1.2.1.1",target);
             return deviceInformation.get(".1.3.6.1.2.1.1.1.0");
