@@ -1,7 +1,6 @@
 package Classes;
 
 import org.snmp4j.mp.SnmpConstants;
-import org.testng.Assert;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
