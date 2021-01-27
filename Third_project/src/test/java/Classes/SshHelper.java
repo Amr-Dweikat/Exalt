@@ -44,7 +44,6 @@ public class SshHelper {
                     deviceDescription += new String(tmp, 0, i);
                 }
                 if(channel.isClosed()){
-                    System.out.println("exit-status: "+channel.getExitStatus());
                     break;
                 }
                 try{Thread.sleep(1000);}catch(Exception ee){}
@@ -55,7 +54,7 @@ public class SshHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return deviceDescription;
+        return deviceDescription.split("=")[1].split(":")[1].trim();
 
     }
 
