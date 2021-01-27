@@ -19,9 +19,11 @@ import org.snmp4j.util.TreeUtils;
 
 public class SnmpHelper {
 
-    private final static int retries = 2 ;
-    private final static int timeout = 1500;
-    private final static int version = SnmpConstants.version2c;
+    private final static int RETRIES = 2 ;
+    private final static int TIMEOUT = 1500;
+    private final static int VERSION = SnmpConstants.version2c;
+    private final static String OID = ".1.3.6.1.2.1.1";
+    private final static String DESCRIPTION_OID = ".1.3.6.1.2.1.1.1.0";
     private static CommunityTarget target = null ;
 
     public SnmpHelper(String hostAddress , String community){
@@ -49,9 +51,9 @@ public class SnmpHelper {
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(community));
         target.setAddress(GenericAddress.parse(address));
-        target.setRetries(retries);
-        target.setTimeout(timeout);
-        target.setVersion(version);
+        target.setRetries(RETRIES);
+        target.setTimeout(TIMEOUT);
+        target.setVersion(VERSION);
         return target;
     }
 
@@ -69,6 +71,7 @@ public class SnmpHelper {
                 System.out.println("Error: Unable to read table...");
                 return result;
             }
+            System.out.println("Snmp connected successful");
             for (TreeEvent event : events) {
                 if (event == null) {
                     continue;
@@ -101,8 +104,9 @@ public class SnmpHelper {
 
 
     public String getDeviceDescription(){
-            Map<String,String> deviceInformation = snmpWalk(".1.3.6.1.2.1.1",target);
-            return deviceInformation.get(".1.3.6.1.2.1.1.1.0");
+            Map<String,String> deviceInformation = snmpWalk(OID,target);
+            System.out.println("device description got by snmp: " + deviceInformation.get(DESCRIPTION_OID) );
+            return deviceInformation.get(DESCRIPTION_OID);
     }
 
 

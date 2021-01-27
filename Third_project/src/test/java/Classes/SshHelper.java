@@ -28,6 +28,7 @@ public class SshHelper {
             session.setPassword("root");
             session.setConfig(config);
             session.connect();
+            System.out.println("Ssh connected successful");
 
             Channel channel=session.openChannel("exec");
             ((ChannelExec)channel).setCommand("snmpwalk -v 2c -c "+community+" "+ hostAddress +" 1.3.6.1.2.1.1.1");
@@ -54,6 +55,7 @@ public class SshHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
+        System.out.println("device description got by ssh : "+ deviceDescription.split("=")[1].split(":")[1].trim() );
         return deviceDescription.split("=")[1].split(":")[1].trim();
 
     }
