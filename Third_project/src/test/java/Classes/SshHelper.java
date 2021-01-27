@@ -9,13 +9,13 @@ import java.io.*;
 public class SshHelper {
 
     private static String hostAddress;
-    private static String userName;
-    private static String password;
+    private static String community;
 
-    public SshHelper(String hostAddress , String userName , String password){
+
+    public SshHelper(String hostAddress , String community){
        this.hostAddress = hostAddress;
-       this.userName = userName;
-       this.password = password;
+       this.community = community;
+
     }
 
     public String getDeviceDescription(){
@@ -24,13 +24,13 @@ public class SshHelper {
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             JSch jsch = new JSch();
-            Session session=jsch.getSession(userName, hostAddress, 22);
-            session.setPassword(password);
+            Session session=jsch.getSession("root", "192.168.200.91", 22);
+            session.setPassword("root");
             session.setConfig(config);
             session.connect();
 
             Channel channel=session.openChannel("exec");
-            ((ChannelExec)channel).setCommand("snmpwalk -v 2c -c public1 192.168.200.233 1.3.6.1.2.1.1.1");
+            ((ChannelExec)channel).setCommand("snmpwalk -v 2c -c "+community+" "+ hostAddress +" 1.3.6.1.2.1.1.1");
             channel.setInputStream(null);
             ((ChannelExec)channel).setErrStream(System.err);
 
