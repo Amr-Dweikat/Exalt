@@ -51,11 +51,12 @@ public class SshHelper {
             }
             channel.disconnect();
             session.disconnect();
+            System.out.println("Ssh read device description successfully");
 
         }catch(Exception e){
             e.printStackTrace();
         }
-        System.out.println("device description got by ssh : "+ deviceDescription.split("=")[1].split(":")[1].trim() );
+        System.out.println("Device description got by ssh : "+ deviceDescription.split("=")[1].split(":")[1].trim() );
         return deviceDescription.split("=")[1].split(":")[1].trim();
 
     }
