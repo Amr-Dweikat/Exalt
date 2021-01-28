@@ -99,13 +99,14 @@ public class SnmpHelper {
         catch (Exception exception){
             exception.printStackTrace();
         }
+        System.out.println("Snmp read device description from device information table successfully");
         return result;
     }
 
 
     public String getDeviceDescription(){
             Map<String,String> deviceInformation = snmpWalk(OID,target);
-            System.out.println("device description got by snmp: " + deviceInformation.get(DESCRIPTION_OID) );
+            System.out.println("Device description got by snmp: " + deviceInformation.get(DESCRIPTION_OID) );
             return deviceInformation.get(DESCRIPTION_OID);
     }
 
