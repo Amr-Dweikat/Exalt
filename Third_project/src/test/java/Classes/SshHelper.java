@@ -67,7 +67,7 @@ public class SshHelper {
                 System.out.println("Ssh read device description successfully");
             }
             else {
-                System.out.println("There is an error with ssh during read device description");
+                System.out.println("There is an error in ssh during read device description");
             }
         }catch(Exception e){
             e.printStackTrace();
