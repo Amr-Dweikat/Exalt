@@ -99,6 +99,7 @@ public class SnmpHelper {
         catch (Exception exception){
             exception.printStackTrace();
         }
+        System.out.println("Snmp read device description from device information table successfully");
         return result;
     }
 

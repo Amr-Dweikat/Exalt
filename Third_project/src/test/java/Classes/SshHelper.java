@@ -13,8 +13,8 @@ public class SshHelper {
 
 
     public SshHelper(String hostAddress , String community){
-       this.hostAddress = hostAddress;
-       this.community = community;
+        this.hostAddress = hostAddress;
+        this.community = community;
 
     }
 
@@ -38,24 +38,41 @@ public class SshHelper {
             InputStream in=channel.getInputStream();
             channel.connect();
             byte[] tmp=new byte[1024];
-            while(true){
+            int timeOut = 30;
+            boolean dataRead = false;
+            while(timeOut > 0){
                 while(in.available()>0){
                     int i=in.read(tmp, 0, 1024);
                     if(i<0)break;
                     deviceDescription += new String(tmp, 0, i);
                 }
                 if(channel.isClosed()){
+                    dataRead = true;
                     break;
                 }
-                try{Thread.sleep(1000);}catch(Exception ee){}
+                if(timeOut == 0){
+                    break;
+                }
+                try{
+                    Thread.sleep(1000);
+                    timeOut--;
+                }
+                catch(Exception ee){
+                    ee.printStackTrace();
+                }
             }
-            channel.disconnect();
-            session.disconnect();
-
+            if(dataRead) {
+                channel.disconnect();
+                session.disconnect();
+                System.out.println("Ssh read device description successfully");
+            }
+            else {
+                System.out.println("There is an error with ssh during read device description");
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
-        System.out.println("device description got by ssh : "+ deviceDescription.split("=")[1].split(":")[1].trim() );
+        System.out.println("Device description got by ssh : "+ deviceDescription.split("=")[1].split(":")[1].trim() );
         return deviceDescription.split("=")[1].split(":")[1].trim();
 
     }
